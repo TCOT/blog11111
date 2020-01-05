@@ -10,7 +10,7 @@
     </el-header>
     <el-container class="main-container">
       <el-aside class="aside">
-        <el-tree
+        <y-tree
             :data="data"
             node-key="id"
             default-expand-all
@@ -18,32 +18,28 @@
             :expand-on-click-node="true">
       <span class="custom-tree-node" slot-scope="{ node, data }">
         <span>{{ node.label }}</span>
-        <span>
-
-          <el-button type="success"
-                     size="mini"
-                     icon="el-icon-plus"
-                     @click.stop="() => append(data)"
-                     circle></el-button>
-          <el-button type="danger"
-                     size="mini"
-                     icon="el-icon-delete"
-                     @click.stop="() => remove(node, data)"
-                     circle></el-button>
+        <span class="icon-container">
+          <i class="el-icon-plus" @click.stop="() => append(data)"></i>
+          <i class="el-icon-delete" @click.stop="() => remove(node, data)"></i>
         </span>
       </span>
-        </el-tree>
+        </y-tree>
       </el-aside>
       <el-main>
+        <div style="height: 500px">
+          <mavon-editor v-model="value"/>
+        </div>
       </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
+  import YTree from "../../components/tree/src/tree";
   let id = 1000;
   export default {
     name: "v-article",
+    components: {YTree},
     data() {
       const data = [{
         id: 1,
@@ -81,6 +77,7 @@
         }]
       }];
       return {
+        value:'',
         data: JSON.parse(JSON.stringify(data)),
         data: JSON.parse(JSON.stringify(data))
       }
@@ -108,12 +105,6 @@
 </script>
 
 <style lang="scss" scoped>
-  /deep/.el-tree-node__expand-icon{
-    font-size: 20px;
-  }
-  /deep/.el-tree-node__content{
-    height: 50px;
-  }
   .header {
     background-color: #fff;
     height: 40px;
@@ -124,7 +115,6 @@
     width: 100%;
     z-index: 20;
     box-shadow: 0 1px 3px rgba(26, 26, 26, .1);
-
     .logo {
       .site-name {
         font-size: 20px;
@@ -133,7 +123,6 @@
       }
     }
   }
-
   .main-container {
     height: calc(100% - 60px);
 
@@ -152,6 +141,26 @@
         justify-content: space-between;
         font-size: 18px;
         padding-right: 8px;
+        .icon-container{
+          display: flex;
+          width: 40px;
+          justify-content: space-between;
+          align-items: center;
+          .el-icon-plus{
+            transition: all .3s;
+            &:hover{
+              font-size: 30px;
+              color: #67C23A;
+            }
+          }
+          .el-icon-delete{
+            transition: all .3s;
+            &:hover{
+              font-size: 30px;
+              color: #F56C6C;
+            }
+          }
+        }
       }
     }
   }
